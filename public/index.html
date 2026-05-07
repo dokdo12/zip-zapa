@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,shrink-to-fit=no"/>
+<title>Classroom</title>
+<link rel="icon" href="https://ssl.gstatic.com/classroom/favicon.png"/>
+<meta name="description" content="Classroom"/>
+<meta name="theme-color" content="#080808"/>
+<script src="baremux/index.js"></script>
+<script src="uv/uv.bundle.js"></script>
+<script src="uv/uv.config.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  background:#080808;color:#fff;
+  font-family:'Syne',sans-serif;
+  min-height:100vh;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  gap:32px;padding:24px;position:relative;overflow:hidden;
+}
+.glow{
+  position:fixed;top:-150px;left:50%;transform:translateX(-50%);
+  width:700px;height:400px;
+  background:radial-gradient(ellipse,rgba(255,45,120,0.18) 0%,transparent 70%);
+  pointer-events:none;z-index:0;
+}
+.content{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:32px;width:100%;max-width:600px;}
+.wordmark{
+  font-size:clamp(42px,9vw,74px);font-weight:800;letter-spacing:-3px;
+  background:linear-gradient(135deg,#fff 20%,#ff2d78);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  text-align:center;line-height:1;
+}
+.tagline{color:#ffffff20;font-size:11px;letter-spacing:0.3em;text-transform:uppercase;margin-top:8px;text-align:center;}
+.row{display:flex;gap:10px;width:100%;}
+#uv-address{
+  flex:1;background:#111;border:1.5px solid #ff2d7835;border-radius:28px;
+  padding:14px 22px;color:#fff;font-size:14px;font-family:'Syne',sans-serif;
+  outline:none;transition:border-color 0.2s,box-shadow 0.2s;
+}
+#uv-address:focus{border-color:#ff2d78;box-shadow:0 0 0 3px #ff2d7815;}
+#uv-address::placeholder{color:#2a2a2a;}
+#uv-search-engine{display:none;}
+#go-btn{
+  background:#ff2d78;border:none;color:#fff;padding:14px 28px;
+  border-radius:28px;font-size:14px;font-weight:700;font-family:'Syne',sans-serif;
+  cursor:pointer;transition:opacity 0.2s,transform 0.1s;white-space:nowrap;
+}
+#go-btn:hover{opacity:0.85;}
+#go-btn:active{transform:scale(0.97);}
+#uv-error{color:#ff2d78;font-size:13px;text-align:center;min-height:18px;}
+#uv-error-code{color:#555;font-size:11px;text-align:center;}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;width:100%;}
+.card{
+  background:#0d0d0d;border:1px solid #1a1a1a;border-radius:14px;
+  overflow:hidden;cursor:pointer;transition:all 0.18s;display:flex;flex-direction:column;
+}
+.card:hover{border-color:#ff2d7855;transform:translateY(-2px);background:#111;}
+.card img{width:100%;height:56px;object-fit:contain;padding:10px;display:block;background:#fff;}
+.card-name{padding:6px 8px 10px;font-size:11px;font-weight:700;color:#888;text-align:center;letter-spacing:0.05em;}
+.foot{color:#1a1a1a;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;}
+</style>
+</head>
+<body>
+<div class="glow"></div>
+<div class="content">
+  <div>
+    <div class="wordmark">ZIPIZAPA</div>
+    <div class="tagline">Your private gateway</div>
+  </div>
+
+  <form id="uv-form" style="width:100%" onsubmit="return false;">
+    <input id="uv-search-engine" value="https://duckduckgo.com/?q=%s" type="hidden"/>
+    <div class="row">
+      <input id="uv-address" type="text" placeholder="Enter a URL or search..." autofocus/>
+      <button id="go-btn" type="submit">Go</button>
+    </div>
+  </form>
+
+  <div>
+    <p id="uv-error"></p>
+    <pre id="uv-error-code"></pre>
+  </div>
+
+  <div class="grid">
+    <div class="card" onclick="loadSite('https://1001juegos.com')">
+      <img src="https://www.1001juegos.com/images/logo.png" alt="1001juegos" onerror="this.style.background='#111'"/>
+      <div class="card-name">1001 Juegos</div>
+    </div>
+    <div class="card" onclick="loadSite('https://coolmathgames.com')">
+      <img src="https://www.coolmathgames.com/sites/default/files/CMG_logo.png" alt="CoolMath" onerror="this.style.background='#111'"/>
+      <div class="card-name">Cool Math</div>
+    </div>
+    <div class="card" onclick="loadSite('https://wikipedia.org')">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Wikipedia-logo-v2.svg/200px-Wikipedia-logo-v2.svg.png" alt="Wikipedia" onerror="this.style.background='#111'"/>
+      <div class="card-name">Wikipedia</div>
+    </div>
+    <div class="card" onclick="loadSite('https://github.com')">
+      <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" onerror="this.style.background='#111'"/>
+      <div class="card-name">GitHub</div>
+    </div>
+    <div class="card" onclick="loadSite('https://reddit.com')">
+      <img src="https://www.redditstatic.com/desktop2x/img/favicon/apple-icon-57x57.png" alt="Reddit" onerror="this.style.background='#111'"/>
+      <div class="card-name">Reddit</div>
+    </div>
+    <div class="card" onclick="loadSite('https://discord.com')">
+      <img src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB.png" alt="Discord" onerror="this.style.background='#5865F2'"/>
+      <div class="card-name">Discord</div>
+    </div>
+    <div class="card" onclick="loadSite('https://chess.com')">
+      <img src="https://www.chess.com/bundles/web/images/color-icons/chess.svg" alt="Chess" onerror="this.style.background='#111'"/>
+      <div class="card-name">Chess.com</div>
+    </div>
+    <div class="card" onclick="loadSite('https://youtube.com')">
+      <img src="https://www.youtube.com/favicon.ico" alt="YouTube" onerror="this.style.background='#ff0000'"/>
+      <div class="card-name">YouTube</div>
+    </div>
+  </div>
+
+  <div class="foot">ZIPIZAPA — private browsing</div>
+</div>
+
+<script src="register-sw.js"></script>
+<script src="search.js"></script>
+<script src="index.js"></script>
+<script>
+  function loadSite(url) {
+    document.getElementById('uv-address').value = url;
+    document.getElementById('uv-form').dispatchEvent(new Event('submit'));
+  }
+</script>
+</body>
+</html>
